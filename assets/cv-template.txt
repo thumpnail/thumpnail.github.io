@@ -1,0 +1,21 @@
+Your Name
+Location | Email | Phone | Portfolio URL
+
+Profile
+A short professional summary.
+
+Experience
+- Role, Company, Date
+  Key achievements and impact.
+
+Education
+- Degree, Institution, Year
+
+Skills
+- Technical: ...
+- Creative: music production, drawing, 3D modelling
+
+Projects
+- Project Name: short description and outcome
+
+Replace this file with your real CV PDF when ready.
