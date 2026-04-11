@@ -51,6 +51,14 @@
   border-radius: 6px;
 }
 
+#about-markdown .about-img {
+  max-width: 35%;
+  height: auto;
+  border-radius: 10px;
+  display: block;
+  margin: 0.6rem 0;
+}
+
 #about-markdown .about-pre {
   background: #ecf4f2;
   border: 1px solid #d3e6e2;

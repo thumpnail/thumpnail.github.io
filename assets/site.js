@@ -37,7 +37,8 @@ async function loadAboutMarkdown(aboutContainer) {
     }
 
     const markdown = await response.text();
-    const parsed = parseMarkdownTagsAndClean(markdown);
+    const rebasedMarkdown = rebaseMarkdownRelativeUrls(markdown, "about/about.md");
+    const parsed = parseMarkdownTagsAndClean(rebasedMarkdown);
     aboutContainer.innerHTML = renderMarkdown(parsed.markdown);
     applyAboutFormattingHooks(aboutContainer);
   } catch (error) {
@@ -59,6 +60,7 @@ function applyAboutFormattingHooks(container) {
   container.querySelectorAll("ol").forEach((el) => el.classList.add("about-ol"));
   container.querySelectorAll("li").forEach((el) => el.classList.add("about-li"));
   container.querySelectorAll("a").forEach((el) => el.classList.add("about-link"));
+  container.querySelectorAll("img").forEach((el) => el.classList.add("about-img"));
   container.querySelectorAll("blockquote").forEach((el) => el.classList.add("about-blockquote"));
   container.querySelectorAll("pre").forEach((el) => el.classList.add("about-pre"));
   container.querySelectorAll("code").forEach((el) => el.classList.add("about-code"));
@@ -74,6 +76,8 @@ async function loadPersonalProfile() {
     const profile = await response.json();
     applyPersonalProfile(profile || {});
   } catch (error) {
+    renderContactCards([],
+      "Profile data could not be loaded. Please check profile.json path and JSON syntax.");
     console.warn("Profile data not applied:", error);
   }
 }
@@ -85,6 +89,8 @@ function applyPersonalProfile(profile) {
   setProfileText("quickIntro", profile.quickIntro);
   setProfileText("aboutText", profile.aboutText);
   setProfileText("contactIntro", profile.contactIntro);
+
+  renderContactCards(profile.contact);
 
   setProfileLink("emailLink", emailToHref(profile.contact && profile.contact.email), profile.contact && profile.contact.email);
   setProfileLink("githubLink", profile.contact && profile.contact.github, profile.contact && profile.contact.github);
@@ -150,6 +156,113 @@ function setProfileLink(key, href, text) {
   });
 }
 
+function renderContactCards(contactData, emptyMessage) {
+  const container = document.querySelector("[data-profile='contactCards']");
+  if (!container) {
+    return;
+  }
+
+  const entries = normalizeContactEntries(contactData);
+  if (entries.length === 0) {
+    const message = emptyMessage || "No contact links configured.";
+    container.innerHTML = "<article class=\"card\"><h3>Contact</h3><p>" + escapeHtml(message) + "</p></article>";
+    return;
+  }
+
+  container.innerHTML = entries.map((entry) => {
+    const title = escapeHtml(entry.title);
+    const href = escapeHtml(entry.href);
+    const text = escapeHtml(entry.text);
+    const externalAttrs = entry.isExternal ? " target=\"_blank\" rel=\"noopener noreferrer\"" : "";
+
+    return "<article class=\"card\">" +
+      "<h3>" + title + "</h3>" +
+      "<p><a href=\"" + href + "\"" + externalAttrs + ">" + text + "</a></p>" +
+      "</article>";
+  }).join("");
+}
+
+function normalizeContactEntries(contactData) {
+  const entries = [];
+
+  if (Array.isArray(contactData)) {
+    contactData.forEach((item) => {
+      if (!item || typeof item !== "object") {
+        return;
+      }
+
+      const linkValue = item.link || item.url || item.href;
+      if (!linkValue) {
+        return;
+      }
+
+      const href = toContactHref(linkValue);
+      const titleValue = item.title || item.name || item.label || "Link";
+      const textValue = item.text || item.display || item.link || item.url || item.href;
+      entries.push({
+        title: prettifyContactTitle(titleValue),
+        href: href,
+        text: String(textValue),
+        isExternal: /^https?:/i.test(href)
+      });
+    });
+    return entries;
+  }
+
+  if (contactData && typeof contactData === "object") {
+    const map = [
+      { key: "email", title: "Email" },
+      { key: "github", title: "GitHub" },
+      { key: "linkedin", title: "LinkedIn" },
+      { key: "soundcloud", title: "SoundCloud" },
+      { key: "instagram", title: "Instagram" }
+    ];
+
+    map.forEach((item) => {
+      const value = contactData[item.key];
+      if (!value) {
+        return;
+      }
+
+      const href = toContactHref(value);
+      entries.push({
+        title: item.title,
+        href: href,
+        text: String(value),
+        isExternal: /^https?:/i.test(href)
+      });
+    });
+  }
+
+  return entries;
+}
+
+function toContactHref(value) {
+  const text = String(value || "").trim();
+  if (!text) {
+    return "";
+  }
+
+  if (/^(https?:|mailto:|tel:)/i.test(text)) {
+    return text;
+  }
+
+  if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(text)) {
+    return "mailto:" + text;
+  }
+
+  return text;
+}
+
+function prettifyContactTitle(title) {
+  const raw = String(title || "Link").trim();
+  if (!raw) {
+    return "Link";
+  }
+
+  return raw.charAt(0).toUpperCase() + raw.slice(1);
+}
+
 function emailToHref(email) {
   if (!email) {
     return "";
@@ -209,7 +322,8 @@ async function loadBlogPosts(blogList) {
         throw new Error("Could not load post: " + postPath);
       }
       const markdown = await postResponse.text();
-      const parsed = parseMarkdownTagsAndClean(markdown);
+      const rebasedMarkdown = rebaseMarkdownRelativeUrls(markdown, post.file);
+      const parsed = parseMarkdownTagsAndClean(rebasedMarkdown);
       return {
         id: buildItemId(post.title || "post", index),
         title: post.title,
@@ -289,7 +403,8 @@ async function loadProjects(projectList) {
       }
 
       const markdown = await markdownResponse.text();
-      const parsed = parseMarkdownTagsAndClean(markdown);
+      const rebasedMarkdown = rebaseMarkdownRelativeUrls(markdown, project.markdown);
+      const parsed = parseMarkdownTagsAndClean(rebasedMarkdown);
       return {
         id: buildItemId(project.name || "project", index),
         name: project.name || "Untitled Project",
@@ -492,6 +607,71 @@ function parseMarkdownTagsAndClean(markdown) {
     tags: Array.from(tagSet).sort(),
     markdown: cleanedLines.join("\n")
   };
+}
+
+function rebaseMarkdownRelativeUrls(markdown, sourcePath) {
+  const sourceDir = getDirectoryPath(String(sourcePath || ""));
+  if (!sourceDir) {
+    return String(markdown || "");
+  }
+
+  let out = String(markdown || "");
+
+  // Images: ![alt](path)
+  out = out.replace(/!\[([^\]]*)\]\(([^)\s]+)(?:\s+"([^"]+)")?\)/g, (m, alt, url, title) => {
+    const rebased = rebaseRelativeUrl(url, sourceDir);
+    return "![" + alt + "](" + rebased + (title ? " \"" + title + "\"" : "") + ")";
+  });
+
+  // Links: [text](path)
+  out = out.replace(/\[([^\]]+)\]\(([^)\s]+)(?:\s+"([^"]+)")?\)/g, (m, text, url, title) => {
+    const rebased = rebaseRelativeUrl(url, sourceDir);
+    return "[" + text + "](" + rebased + (title ? " \"" + title + "\"" : "") + ")";
+  });
+
+  return out;
+}
+
+function getDirectoryPath(pathValue) {
+  const normalized = pathValue.replace(/\\/g, "/").replace(/^\.\//, "");
+  const idx = normalized.lastIndexOf("/");
+  if (idx < 0) {
+    return "";
+  }
+  return normalized.slice(0, idx + 1);
+}
+
+function rebaseRelativeUrl(urlValue, baseDir) {
+  const url = String(urlValue || "").trim();
+  if (!url || /^(https?:|mailto:|tel:|data:|#|\/)/i.test(url)) {
+    return url;
+  }
+
+  const combined = baseDir + url;
+  const normalized = normalizePathSegments(combined);
+  return toSitePath(normalized);
+}
+
+function normalizePathSegments(pathValue) {
+  const parts = String(pathValue || "").replace(/\\/g, "/").split("/");
+  const out = [];
+
+  parts.forEach((part) => {
+    if (!part || part === ".") {
+      return;
+    }
+
+    if (part === "..") {
+      if (out.length > 0) {
+        out.pop();
+      }
+      return;
+    }
+
+    out.push(part);
+  });
+
+  return out.join("/");
 }
 
 function setupTagFiltering(options) {
@@ -792,6 +972,10 @@ function closeListIfOpen(out, setClosed, isOpen) {
 
 function inlineMarkdown(text) {
   let html = escapeHtml(text);
+  html = html.replace(/!\[([^\]]*)\]\(([^)\s]+)(?:\s+&quot;([^&]+)&quot;)?\)/g, '<img alt="$1" src="$2" title="$3">');
+  html = html.replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g, '<img alt="$1" src="$2">');
+  html = html.replace(/\[([^\]]+)\]\(([^)\s]+)(?:\s+&quot;([^&]+)&quot;)?\)/g, '<a href="$2" title="$3">$1</a>');
+  html = html.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, '<a href="$2">$1</a>');
   html = html.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
   html = html.replace(/\*(.+?)\*/g, "<em>$1</em>");
   html = html.replace(/`(.+?)`/g, "<code>$1</code>");

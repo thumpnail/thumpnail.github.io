@@ -1,6 +1,6 @@
 #private #wip #writing-in-progress
 # The Compiler Project
-[Project Repository](https://github.com/thumpnail/CompilerProject) (Private)
+[Project Repository](https://github.com/thumpnail/CompilerProject)
 
 ## What is this About?
 The **Compiler Project** is more or less a project to learn Building a Compiler, and the third try at that one too. 

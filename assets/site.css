@@ -425,6 +425,14 @@ h2 {
   margin-bottom: 0;
 }
 
+.blog-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  display: block;
+  margin: 0.6rem 0;
+}
+
 .blog-content code {
   background: #ecf4f2;
   border: 1px solid #d3e6e2;
