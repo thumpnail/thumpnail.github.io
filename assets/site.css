@@ -268,10 +268,82 @@ h2 {
   font-size: 0.92rem;
 }
 
+.sidebar-desc {
+  display: block;
+  color: #4a5f58;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  margin-top: 0.2rem;
+}
+
 .sidebar-list time {
   display: block;
   color: #4a5f58;
   font-size: 0.82rem;
+}
+
+.sidebar-groups {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.sidebar-group-title {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #39514a;
+  border-bottom: 1px dashed var(--line);
+  padding-bottom: 0.35rem;
+  margin-bottom: 0.45rem;
+}
+
+.tag-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.tag-filter-label {
+  font-size: 0.9rem;
+  color: #39514a;
+  font-weight: 600;
+}
+
+.tag-filter-loading {
+  color: #4a5f58;
+  font-size: 0.9rem;
+}
+
+.tag-filter-btn,
+.item-tag {
+  border: 1px solid #bbd7d0;
+  background: #e5f2ef;
+  color: #0e5547;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  padding: 0.25rem 0.65rem;
+}
+
+.tag-filter-btn {
+  cursor: pointer;
+}
+
+.tag-filter-btn.active,
+.tag-filter-btn:hover,
+.tag-filter-btn:focus-visible {
+  border-color: #0f7a66;
+  background: #0f7a66;
+  color: #fff;
+  outline: none;
+}
+
+.item-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0.45rem 0 0.65rem;
 }
 
 .blog-item {

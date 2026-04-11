@@ -14,7 +14,7 @@
   <div class="grain" aria-hidden="true"></div>
   <header>
     <div class="container nav-wrap">
-      <a class="brand" href="index.html">Your Name</a>
+      <a class="brand" href="../index.html" data-profile="name">Your Name</a>
       <nav aria-label="Main navigation">
         <ul>
           <li><a href="../index.html">Start</a></li>
@@ -30,6 +30,7 @@
 
   <main class="container">
     <h1 id="content-title">Content</h1>
+    <div id="content-tags" class="item-tags" aria-label="Content tags"></div>
     <div id="content-body" class="blog-item blog-content" aria-live="polite">
       <p>Loading content...</p>
     </div>
@@ -37,7 +38,7 @@
 
   <footer>
     <div class="container">
-      <p>&copy; <span id="year"></span> Your Name. Built for GitHub Pages.</p>
+      <p>&copy; <span id="year"></span> <span data-profile="name">Your Name</span>. Built for GitHub Pages.</p>
     </div>
   </footer>
 
@@ -49,6 +50,7 @@
       const file = params.get("file");
       const title = params.get("title");
       const titleEl = document.getElementById("content-title");
+      const tagsEl = document.getElementById("content-tags");
       const bodyEl = document.getElementById("content-body");
 
       if (title) {
@@ -69,7 +71,29 @@
         }
 
         const markdown = await response.text();
-        if (window.marked && typeof window.marked.parse === "function") {
+        if (typeof parseMarkdownTagsAndClean === "function") {
+          const parsed = parseMarkdownTagsAndClean(markdown);
+          if (Array.isArray(parsed.tags) && parsed.tags.length > 0) {
+            tagsEl.innerHTML = parsed.tags.map(function (tag) {
+              return "<span class=\"item-tag\">#" + tag + "</span>";
+            }).join("");
+          } else {
+            tagsEl.innerHTML = "";
+          }
+
+          if (typeof renderMarkdown === "function") {
+            bodyEl.innerHTML = renderMarkdown(parsed.markdown);
+          } else if (window.marked && typeof window.marked.parse === "function") {
+            bodyEl.innerHTML = window.marked.parse(parsed.markdown);
+          } else {
+            bodyEl.textContent = parsed.markdown;
+          }
+          return;
+        }
+
+        if (typeof renderMarkdown === "function") {
+          bodyEl.innerHTML = renderMarkdown(markdown);
+        } else if (window.marked && typeof window.marked.parse === "function") {
           bodyEl.innerHTML = window.marked.parse(markdown);
         } else {
           bodyEl.textContent = markdown;

@@ -1,0 +1,27 @@
+{
+  "name": "Moritz 'Fenex' Friedewald",
+  "headline": "Software Developer | Media Informatics",
+  "homeIntro": "I am a Media Informatics student at THM Friedberg and I focus on practical software development with C# and ASP.NET. I build tools that solve concrete problems, from parser/compiler projects to data-oriented game systems and creative workflows.",
+  "quickIntro": "Software developer focused on architecture, practical tooling, and fast learning of new technologies.",
+  "aboutText": "I quickly and independently work into new software architecture and development topics. My core stack is C# and ASP.NET, while I also explore Go and Zig. I have experience with backend development, support tooling, and performance-focused seminar/project work.",
+  "contactIntro": "I am always open to interesting projects, collaborations, and conversations about software, tools, and creative development.",
+  "skills": [
+    "C#",
+    "ASP.NET",
+    "Software Architecture",
+    "Parser/Compiler Development",
+    "Game Development",
+    "PowerShell",
+    "Python",
+    "Lua"
+  ],
+  "contact": {
+    "email": "friedewald24@gmail.com",
+    "github": "https://github.com/thumpnail",
+    "linkedin": "https://www.linkedin.com/in/your-profile"
+  },
+  "cv": {
+    "file": "assets/cv-template.txt",
+    "downloadName": "Moritz-Friedewald-CV.txt"
+  }
+}

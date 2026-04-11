@@ -1,3 +1,4 @@
+#welcome
 # Welcome
 
 This blog uses **Markdown** files stored directly in the repository.

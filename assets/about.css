@@ -1,0 +1,67 @@
+#about-markdown {
+  max-width: 75ch;
+  font-size: larger;
+}
+
+/* About page markdown styling hooks */
+#about-markdown .about-h1,
+#about-markdown .about-h2,
+#about-markdown .about-h3 {
+  font-family: "Fraunces", serif;
+  line-height: 1.25;
+  margin: 0.8rem 0 0.5rem;
+}
+
+#about-markdown .about-h1 {
+  font-size: 1.55rem;
+}
+
+#about-markdown .about-h2 {
+  font-size: 1.3rem;
+}
+
+#about-markdown .about-h3 {
+  font-size: 1.15rem;
+}
+
+#about-markdown .about-p {
+  color: #21332f;
+  margin-bottom: 0.7rem;
+}
+
+#about-markdown .about-ul,
+#about-markdown .about-ol {
+  margin: 0 0 0.7rem 1.2rem;
+}
+
+#about-markdown .about-li {
+  margin-bottom: 0.35rem;
+}
+
+#about-markdown .about-link {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+#about-markdown .about-pre {
+  background: #ecf4f2;
+  border: 1px solid #d3e6e2;
+  border-radius: 8px;
+  padding: 0.8rem;
+  overflow-x: auto;
+  margin-bottom: 0.8rem;
+}
+
+#about-markdown .about-code {
+  background: #ecf4f2;
+  border: 1px solid #d3e6e2;
+  border-radius: 6px;
+  padding: 0.1rem 0.35rem;
+  font-family: Consolas, monospace;
+}
+
+#about-markdown .about-pre .about-code {
+  border: none;
+  padding: 0;
+  background: transparent;
+}

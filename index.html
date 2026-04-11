@@ -15,7 +15,7 @@
 
   <header>
     <div class="container nav-wrap">
-      <a class="brand" href="index.html">Your Name</a>
+      <a class="brand" href="index.html" data-profile="name">Moritz 'Fenex' Friedewald</a>
       <nav aria-label="Main navigation">
         <ul>
           <li><a class="active" href="index.html">Start</a></li>
@@ -32,10 +32,10 @@
   <main class="container">
     <div class="hero">
       <div>
-        <h1>Building digital tools and creative worlds.</h1>
-        <p class="lead">
-          I design and build practical software, then recharge through music, drawing,
-          and 3D work. Explore my projects, creative work, and markdown blog.
+        <h1 data-profile="headline">Software Developer | Media Informatics</h1>
+        <p class="lead" data-profile="homeIntro">
+          I am a Media Informatics student at THM Friedberg and I focus on practical software
+          development with C# and ASP.NET. I build tools that solve concrete problems.
         </p>
         <div class="cta-row">
           <a class="btn btn-primary" href="pages/projects.html">View Projects</a>
@@ -44,12 +44,12 @@
       </div>
       <aside class="hero-card" aria-label="Quick profile">
         <h2 style="font-size:1.4rem; margin-bottom:0.4rem;">Quick Intro</h2>
-        <p>Developer, maker, and multidisciplinary creative based in your city.</p>
-        <div class="stack" aria-label="Skills">
-          <span class="chip">Web Dev</span>
-          <span class="chip">AI Tools</span>
-          <span class="chip">Music Production</span>
-          <span class="chip">3D Modelling</span>
+        <p data-profile="quickIntro">Software developer focused on architecture, practical tooling, and fast learning of new technologies.</p>
+        <div class="stack" aria-label="Skills" data-profile="skills">
+          <span class="chip">C#</span>
+          <span class="chip">ASP.NET</span>
+          <span class="chip">PowerShell</span>
+          <span class="chip">Game Development</span>
         </div>
       </aside>
     </div>
@@ -57,7 +57,7 @@
 
   <footer>
     <div class="container">
-      <p>&copy; <span id="year"></span> Your Name. Built for GitHub Pages.</p>
+      <p>&copy; <span id="year"></span> <span data-profile="name">Moritz 'Fenex' Friedewald</span>. Built for GitHub Pages.</p>
     </div>
   </footer>
 

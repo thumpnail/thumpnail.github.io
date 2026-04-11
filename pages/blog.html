@@ -14,7 +14,7 @@
   <div class="grain" aria-hidden="true"></div>
   <header>
     <div class="container nav-wrap">
-      <a class="brand" href="index.html">Your Name</a>
+      <a class="brand" href="../index.html" data-profile="name">Your Name</a>
       <nav aria-label="Main navigation">
         <ul>
           <li><a href="../index.html">Start</a></li>
@@ -31,12 +31,18 @@
   <main class="container">
     <h1>Blog</h1>
     <p class="lead">Browse posts by date in the sidebar and jump directly to each entry.</p>
+    <div id="blog-tag-filters" class="tag-filters" aria-label="Blog tag filters">
+      <span class="tag-filter-label">Filter by tag:</span>
+      <span class="tag-filter-loading">Loading tags...</span>
+    </div>
     <div class="content-layout">
       <aside class="sidebar" aria-label="Blog navigation">
         <h2>Posts By Date</h2>
-        <ul id="blog-sidebar-list" class="sidebar-list">
-          <li>Loading post index...</li>
-        </ul>
+        <div id="blog-sidebar-groups" class="sidebar-groups">
+          <ul id="blog-sidebar-list" class="sidebar-list">
+            <li>Loading post index...</li>
+          </ul>
+        </div>
       </aside>
       <div id="blog-list" class="blog-list" aria-live="polite">
         <article class="blog-item">
@@ -48,7 +54,7 @@
 
   <footer>
     <div class="container">
-      <p>&copy; <span id="year"></span> Your Name. Built for GitHub Pages.</p>
+      <p>&copy; <span id="year"></span> <span data-profile="name">Your Name</span>. Built for GitHub Pages.</p>
     </div>
   </footer>
 
