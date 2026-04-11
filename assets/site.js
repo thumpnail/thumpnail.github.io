@@ -1,4 +1,4 @@
-const SITE_ROOT_PREFIX = window.location.pathname.includes("/pages/") ? "../" : "";
+const SITE_BASE_PATH = detectSiteBasePath();
 
 document.addEventListener("DOMContentLoaded", () => {
   loadPersonalProfile();
@@ -340,8 +340,27 @@ function resolveBlogMarkdownPath(pathValue) {
 
 function toSitePath(relativePath) {
   const normalized = String(relativePath || "").replace(/\\/g, "/");
-  const prefixed = SITE_ROOT_PREFIX + normalized;
-  return new URL(prefixed, window.location.href).href;
+  const base = SITE_BASE_PATH.endsWith("/") ? SITE_BASE_PATH : SITE_BASE_PATH + "/";
+  return new URL(base + normalized, window.location.origin).href;
+}
+
+function detectSiteBasePath() {
+  const scripts = Array.from(document.getElementsByTagName("script"));
+  const siteScript = scripts.find((script) => {
+    const src = script.getAttribute("src") || "";
+    return src.includes("assets/site.js");
+  });
+
+  if (siteScript && siteScript.src) {
+    const scriptUrl = new URL(siteScript.src, window.location.href);
+    return scriptUrl.pathname.replace(/\/assets\/site\.js$/, "") || "/";
+  }
+
+  if (window.location.pathname.includes("/pages/")) {
+    return window.location.pathname.replace(/\/pages\/.+$/, "") || "/";
+  }
+
+  return "/";
 }
 
 function localFileHint() {
