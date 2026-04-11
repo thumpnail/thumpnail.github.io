@@ -287,6 +287,12 @@ h2 {
   gap: 0.9rem;
 }
 
+.sidebar-overview-scroll {
+  max-height: min(68vh, 640px);
+  overflow-y: auto;
+  padding-right: 0.25rem;
+}
+
 .sidebar-group-title {
   font-size: 0.85rem;
   text-transform: uppercase;
@@ -403,6 +409,22 @@ h2 {
   margin-bottom: 0.8rem;
 }
 
+.blog-content blockquote {
+  margin: 0 0 0.8rem;
+  padding: 0.6rem 0.9rem;
+  border-left: 4px solid #7ab5a9;
+  background: #eef7f4;
+  border-radius: 6px;
+}
+
+.blog-content blockquote p {
+  margin-bottom: 0.35rem;
+}
+
+.blog-content blockquote p:last-child {
+  margin-bottom: 0;
+}
+
 .blog-content code {
   background: #ecf4f2;
   border: 1px solid #d3e6e2;
@@ -448,6 +470,11 @@ footer {
 
   .sidebar {
     position: static;
+  }
+
+  .sidebar-overview-scroll {
+    max-height: none;
+    overflow-y: visible;
   }
 
   .nav-wrap {

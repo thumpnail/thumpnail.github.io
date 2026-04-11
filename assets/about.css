@@ -43,6 +43,14 @@
   text-decoration: underline;
 }
 
+#about-markdown .about-blockquote {
+  margin: 0 0 0.8rem;
+  padding: 0.6rem 0.9rem;
+  border-left: 4px solid #7ab5a9;
+  background: #eef7f4;
+  border-radius: 6px;
+}
+
 #about-markdown .about-pre {
   background: #ecf4f2;
   border: 1px solid #d3e6e2;

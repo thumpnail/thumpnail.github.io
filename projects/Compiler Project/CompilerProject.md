@@ -1,0 +1,11 @@
+#private #wip #writing-in-progress
+# The Compiler Project
+[Project Repository](https://github.com/thumpnail/CompilerProject) (Private)
+
+## What is this About?
+The **Compiler Project** is more or less a project to learn Building a Compiler, and the third try at that one too. 
+The first one, [NanoScript](https://github.com/thumpnail/NanoScript), used mainly a dictionary and a instruction based approach but i failed to forsee the difficulties, that came apparend as i introduced code blocks under if and else, to the point where i told myself, that that isnt really feasable to continue but i might return to that idea.
+
+My second approach was [VParseus](https://github.com/thumpnail/VParseus) where i leaned into the parser generation part, but still wrote a parser for EBNF files by hand(to use as a base to generate a parser through code generation). But here was my issue that i made some small descisions, that made it hard to Parse Alternetives(the things with the '|' pipe thing). but i made my parser smaller but was cooking up an idea to make the lexer even smaller and easier to use but rely heavily on RegEx but the simplicity outwaight the performance loss(i actually never tested it). And here was the idea of Parseus born, my Parser libary i continue to build and fix for the following ~2 years.
+
+But before that was "usable", i started working on my biggest approach yet. I thought of a pretty dense and complex grammar close to typescript and rust but with features of C#. I used a classical(and easy) recursive decent approach and handled every parsing funcion as a EBNF-Rule. In combination with a Context, who reads the tokens from an array and methods to interface with it. But a problem that soo arised, was how i want to track errors, and backtrack the whole thing if an error happend.(i didnt knew of the re-sync-concept of the parser yet) This made finding errors painstakingly difficult and debugging the parser was a nightmare. so i started the idea the ultimatly shaped [Parseus](https://github.com/thumpnail/Parseus).

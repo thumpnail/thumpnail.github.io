@@ -59,6 +59,7 @@ function applyAboutFormattingHooks(container) {
   container.querySelectorAll("ol").forEach((el) => el.classList.add("about-ol"));
   container.querySelectorAll("li").forEach((el) => el.classList.add("about-li"));
   container.querySelectorAll("a").forEach((el) => el.classList.add("about-link"));
+  container.querySelectorAll("blockquote").forEach((el) => el.classList.add("about-blockquote"));
   container.querySelectorAll("pre").forEach((el) => el.classList.add("about-pre"));
   container.querySelectorAll("code").forEach((el) => el.classList.add("about-code"));
 }
@@ -683,6 +684,7 @@ function basicMarkdownToHtml(markdown) {
   const out = [];
   let inList = false;
   let inCode = false;
+  let inQuote = false;
 
   for (const rawLine of lines) {
     const line = rawLine.trimEnd();
@@ -691,6 +693,10 @@ function basicMarkdownToHtml(markdown) {
       if (inList) {
         out.push("</ul>");
         inList = false;
+      }
+      if (inQuote) {
+        out.push("</blockquote>");
+        inQuote = false;
       }
       out.push("<pre><code>");
       inCode = true;
@@ -706,6 +712,26 @@ function basicMarkdownToHtml(markdown) {
     if (inCode) {
       out.push(escapeHtml(line));
       continue;
+    }
+
+    const quoteMatch = line.match(/^(>\s*)+/);
+    if (quoteMatch) {
+      closeListIfOpen(out, () => { inList = false; }, inList);
+      if (!inQuote) {
+        out.push("<blockquote>");
+        inQuote = true;
+      }
+
+      const quoteText = line.replace(/^(>\s*)+/, "").trim();
+      if (quoteText) {
+        out.push("<p>" + inlineMarkdown(quoteText) + "</p>");
+      }
+      continue;
+    }
+
+    if (inQuote) {
+      out.push("</blockquote>");
+      inQuote = false;
     }
 
     if (/^###\s+/.test(line)) {
@@ -746,6 +772,9 @@ function basicMarkdownToHtml(markdown) {
 
   if (inList) {
     out.push("</ul>");
+  }
+  if (inQuote) {
+    out.push("</blockquote>");
   }
   if (inCode) {
     out.push("</code></pre>");
