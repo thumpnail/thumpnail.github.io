@@ -79,7 +79,7 @@ async function loadPersonalProfile() {
 
 function applyPersonalProfile(profile) {
   setProfileText("name", profile.name);
-  setProfileText("headline", profile.headline);
+  setProfileMultilineText("headline", profile.headline);
   setProfileText("homeIntro", profile.homeIntro);
   setProfileText("quickIntro", profile.quickIntro);
   setProfileText("aboutText", profile.aboutText);
@@ -108,12 +108,31 @@ function applyPersonalProfile(profile) {
 }
 
 function setProfileText(key, value) {
-  if (!value) {
+  if (value === undefined || value === null) {
     return;
   }
 
   document.querySelectorAll("[data-profile='" + key + "']").forEach((el) => {
     el.textContent = String(value);
+  });
+}
+
+function setProfileMultilineText(key, value) {
+  if (value === undefined || value === null) {
+    return;
+  }
+
+  const lines = Array.isArray(value)
+    ? value.map((line) => String(line))
+    : String(value).split(/\r?\n|::nl/g);
+
+  const html = lines
+    .filter((line) => line.trim() !== "")
+    .map((line) => escapeHtml(line))
+    .join("<br>");
+
+  document.querySelectorAll("[data-profile='" + key + "']").forEach((el) => {
+    el.innerHTML = html || escapeHtml(String(value));
   });
 }
 
