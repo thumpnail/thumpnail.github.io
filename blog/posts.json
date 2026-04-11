@@ -14,4 +14,10 @@
     "date": "2026-04-11",
     "file": "WhatAboutCleanCode.md"
   }
+  ,
+  {
+    "title": "Taking Git Cli To The Next Level",
+    "date": "2026-04-11",
+    "file": "TakingGitCliToTheNextLevel.md"
+  }
 ]
