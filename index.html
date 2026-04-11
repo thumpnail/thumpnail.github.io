@@ -1,7 +1,66 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Start | Portfolio</title>
+  <meta name="description" content="Start page for a portfolio website.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/site.css">
+</head>
 <body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header>
+    <div class="container nav-wrap">
+      <a class="brand" href="index.html">Your Name</a>
+      <nav aria-label="Main navigation">
+        <ul>
+          <li><a class="active" href="index.html">Start</a></li>
+          <li><a href="about.html">About Me</a></li>
+          <li><a href="projects.html">Projects</a></li>
+          <li><a href="creative.html">Creative</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="hero">
+      <div>
+        <h1>Building digital tools and creative worlds.</h1>
+        <p class="lead">
+          I design and build practical software, then recharge through music, drawing,
+          and 3D work. Explore my projects, creative work, and markdown blog.
+        </p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="projects.html">View Projects</a>
+          <a class="btn btn-secondary" href="blog.html">Read Blog</a>
+        </div>
+      </div>
+      <aside class="hero-card" aria-label="Quick profile">
+        <h2 style="font-size:1.4rem; margin-bottom:0.4rem;">Quick Intro</h2>
+        <p>Developer, maker, and multidisciplinary creative based in your city.</p>
+        <div class="stack" aria-label="Skills">
+          <span class="chip">Web Dev</span>
+          <span class="chip">AI Tools</span>
+          <span class="chip">Music Production</span>
+          <span class="chip">3D Modelling</span>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; <span id="year"></span> Your Name. Built for GitHub Pages.</p>
+    </div>
+  </footer>
+
+  <script src="assets/site.js"></script>
 </body>
 </html>
