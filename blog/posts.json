@@ -2,11 +2,16 @@
   {
     "title": "Welcome To My Markdown Blog",
     "date": "2026-04-11",
-    "file": "blog/welcome.md"
+    "file": "welcome.md"
   },
   {
-    "title": "How Creative Work Improves My Coding",
+    "title": "Why Git from the CLI is abolut bangers*",
     "date": "2026-04-11",
-    "file": "blog/creative-workflow.md"
+    "file": "WhyGitCliIsGoated.md"
+  },
+  {
+    "title": "What about Clean Code",
+    "date": "2026-04-11",
+    "file": "WhatAboutCleanCode.md"
   }
 ]
