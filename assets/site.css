@@ -217,6 +217,63 @@ h2 {
   margin-top: 1.2rem;
 }
 
+.content-layout {
+  display: grid;
+  grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
+  gap: 1rem;
+  align-items: start;
+  margin-top: 1.1rem;
+}
+
+.sidebar {
+  position: sticky;
+  top: 84px;
+  background: var(--paper);
+  border: 1px solid rgba(20, 34, 31, 0.1);
+  border-radius: var(--radius);
+  box-shadow: var(--card-shadow);
+  padding: 1rem;
+}
+
+.sidebar h2 {
+  font-size: 1.2rem;
+  margin-bottom: 0.7rem;
+}
+
+.sidebar-list {
+  list-style: none;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.sidebar-list a {
+  display: block;
+  text-decoration: none;
+  color: var(--ink);
+  border: 1px solid transparent;
+  border-radius: 10px;
+  padding: 0.45rem 0.5rem;
+}
+
+.sidebar-list a:hover,
+.sidebar-list a:focus-visible {
+  border-color: var(--line);
+  background: var(--accent-soft);
+  outline: none;
+}
+
+.sidebar-list span {
+  display: block;
+  font-weight: 600;
+  font-size: 0.92rem;
+}
+
+.sidebar-list time {
+  display: block;
+  color: #4a5f58;
+  font-size: 0.82rem;
+}
+
 .blog-item {
   background: var(--paper);
   border: 1px solid rgba(20, 34, 31, 0.1);
@@ -311,6 +368,14 @@ footer {
 @media (max-width: 780px) {
   .hero {
     grid-template-columns: 1fr;
+  }
+
+  .content-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: static;
   }
 
   .nav-wrap {

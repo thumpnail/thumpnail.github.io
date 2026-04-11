@@ -30,11 +30,19 @@
 
   <main class="container">
     <h1>Blog</h1>
-    <p class="lead">This page loads markdown files from the repository, so writing posts stays simple.</p>
-    <div id="blog-list" class="blog-list" aria-live="polite">
-      <article class="blog-item">
-        <p>Loading posts...</p>
-      </article>
+    <p class="lead">Browse posts by date in the sidebar and jump directly to each entry.</p>
+    <div class="content-layout">
+      <aside class="sidebar" aria-label="Blog navigation">
+        <h2>Posts By Date</h2>
+        <ul id="blog-sidebar-list" class="sidebar-list">
+          <li>Loading post index...</li>
+        </ul>
+      </aside>
+      <div id="blog-list" class="blog-list" aria-live="polite">
+        <article class="blog-item">
+          <p>Loading posts...</p>
+        </article>
+      </div>
     </div>
   </main>
 

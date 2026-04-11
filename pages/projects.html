@@ -30,11 +30,19 @@
 
   <main class="container">
     <h1>Projects</h1>
-    <p class="lead">All projects are written in markdown and rendered automatically from projects/projects.json.</p>
-    <div id="project-list" class="blog-list" aria-live="polite">
-      <article class="blog-item">
-        <p>Loading projects...</p>
-      </article>
+    <p class="lead">All projects are markdown-based, sorted by date, and indexed in the sidebar.</p>
+    <div class="content-layout">
+      <aside class="sidebar" aria-label="Project navigation">
+        <h2>Projects By Date</h2>
+        <ul id="project-sidebar-list" class="sidebar-list">
+          <li>Loading project index...</li>
+        </ul>
+      </aside>
+      <div id="project-list" class="blog-list" aria-live="polite">
+        <article class="blog-item">
+          <p>Loading projects...</p>
+        </article>
+      </div>
     </div>
   </main>
 

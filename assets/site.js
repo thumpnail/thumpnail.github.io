@@ -15,20 +15,27 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+const SITE_ROOT_PREFIX = window.location.pathname.includes("/pages/") ? "../" : "";
+
 async function loadBlogPosts(blogList) {
+  const blogSidebarList = document.getElementById("blog-sidebar-list");
+
   try {
-    const manifestResponse = await fetch("blog/posts.json");
+    const manifestResponse = await fetch(toSitePath("blog/posts.json"));
     if (!manifestResponse.ok) {
       throw new Error("Could not load blog manifest.");
     }
 
-    const posts = await manifestResponse.json();
+    const posts = sortByDateDesc(await manifestResponse.json(), "date");
     if (!Array.isArray(posts) || posts.length === 0) {
       blogList.innerHTML = "<article class=\"blog-item\"><p>No posts yet. Add markdown files in /blog and list them in posts.json.</p></article>";
+      if (blogSidebarList) {
+        blogSidebarList.innerHTML = "<li>No posts yet</li>";
+      }
       return;
     }
 
-    const cards = await Promise.all(posts.map(async (post) => {
+    const cards = await Promise.all(posts.map(async (post, index) => {
       const postPath = resolveBlogMarkdownPath(post.file);
       const postResponse = await fetch(postPath);
       if (!postResponse.ok) {
@@ -36,6 +43,7 @@ async function loadBlogPosts(blogList) {
       }
       const markdown = await postResponse.text();
       return {
+        id: buildItemId(post.title || "post", index),
         title: post.title,
         date: post.date,
         postPath: postPath,
@@ -43,9 +51,18 @@ async function loadBlogPosts(blogList) {
       };
     }));
 
+    if (blogSidebarList) {
+      blogSidebarList.innerHTML = cards.map((card) => {
+        return "<li><a href=\"#" + card.id + "\">" +
+          "<span>" + (card.title || "Untitled") + "</span>" +
+          "<time datetime=\"" + safeDateValue(card.date) + "\">" + displayDate(card.date) + "</time>" +
+          "</a></li>";
+      }).join("");
+    }
+
     blogList.innerHTML = cards.map((card) => {
-      return "<article class=\"blog-item\">" +
-        "<time datetime=\"" + card.date + "\">" + card.date + "</time>" +
+      return "<article id=\"" + card.id + "\" class=\"blog-item\">" +
+        "<time datetime=\"" + safeDateValue(card.date) + "\">" + displayDate(card.date) + "</time>" +
         "<h3>" + card.title + "</h3>" +
         "<div class=\"blog-content\">" + card.html + "</div>" +
         "<p><a href=\"content.html?file=" + encodeURIComponent(card.postPath) + "&title=" + encodeURIComponent(card.title) + "\">Open rendered post</a></p>" +
@@ -58,19 +75,24 @@ async function loadBlogPosts(blogList) {
 }
 
 async function loadProjects(projectList) {
+  const projectSidebarList = document.getElementById("project-sidebar-list");
+
   try {
-    const manifestResponse = await fetch("projects/projects.json");
+    const manifestResponse = await fetch(toSitePath("projects/projects.json"));
     if (!manifestResponse.ok) {
       throw new Error("Could not load projects manifest.");
     }
 
-    const projects = await manifestResponse.json();
+    const projects = sortByDateDesc(await manifestResponse.json(), "date");
     if (!Array.isArray(projects) || projects.length === 0) {
       projectList.innerHTML = "<article class=\"blog-item\"><p>No projects yet. Add markdown files in /projects and list them in projects/projects.json.</p></article>";
+      if (projectSidebarList) {
+        projectSidebarList.innerHTML = "<li>No projects yet</li>";
+      }
       return;
     }
 
-    const cards = await Promise.all(projects.map(async (project) => {
+    const cards = await Promise.all(projects.map(async (project, index) => {
       const markdownPath = resolveProjectMarkdownPath(project.markdown);
       const markdownResponse = await fetch(markdownPath);
       if (!markdownResponse.ok) {
@@ -79,15 +101,27 @@ async function loadProjects(projectList) {
 
       const markdown = await markdownResponse.text();
       return {
+        id: buildItemId(project.name || "project", index),
         name: project.name || "Untitled Project",
+        date: project.date || "",
         description: project.description || "",
         markdownPath: markdownPath,
         html: renderMarkdown(markdown)
       };
     }));
 
+    if (projectSidebarList) {
+      projectSidebarList.innerHTML = cards.map((card) => {
+        return "<li><a href=\"#" + card.id + "\">" +
+          "<span>" + card.name + "</span>" +
+          "<time datetime=\"" + safeDateValue(card.date) + "\">" + displayDate(card.date) + "</time>" +
+          "</a></li>";
+      }).join("");
+    }
+
     projectList.innerHTML = cards.map((card) => {
-      return "<article class=\"blog-item\">" +
+      return "<article id=\"" + card.id + "\" class=\"blog-item\">" +
+        "<time datetime=\"" + safeDateValue(card.date) + "\">" + displayDate(card.date) + "</time>" +
         "<h3>" + card.name + "</h3>" +
         (card.description ? "<p>" + card.description + "</p>" : "") +
         "<div class=\"blog-content\">" + card.html + "</div>" +
@@ -108,10 +142,10 @@ function resolveProjectMarkdownPath(pathValue) {
   const normalized = pathValue.replace(/\\/g, "/");
 
   if (normalized.startsWith("projects/")) {
-    return normalized;
+    return toSitePath(normalized);
   }
 
-  return "projects/" + normalized;
+  return toSitePath("projects/" + normalized);
 }
 
 function resolveBlogMarkdownPath(pathValue) {
@@ -122,10 +156,68 @@ function resolveBlogMarkdownPath(pathValue) {
   const normalized = pathValue.replace(/\\/g, "/");
 
   if (normalized.startsWith("blog/")) {
-    return normalized;
+    return toSitePath(normalized);
   }
 
-  return "blog/" + normalized;
+  return toSitePath("blog/" + normalized);
+}
+
+function toSitePath(relativePath) {
+  return SITE_ROOT_PREFIX + relativePath;
+}
+
+function sortByDateDesc(items, dateKey) {
+  if (!Array.isArray(items)) {
+    return [];
+  }
+
+  return [...items].sort((a, b) => {
+    const aDate = Date.parse(a && a[dateKey] ? a[dateKey] : "");
+    const bDate = Date.parse(b && b[dateKey] ? b[dateKey] : "");
+
+    const aValid = Number.isFinite(aDate);
+    const bValid = Number.isFinite(bDate);
+
+    if (aValid && bValid) {
+      return bDate - aDate;
+    }
+    if (aValid) {
+      return -1;
+    }
+    if (bValid) {
+      return 1;
+    }
+    return 0;
+  });
+}
+
+function displayDate(dateValue) {
+  const parsed = Date.parse(dateValue || "");
+  if (!Number.isFinite(parsed)) {
+    return "No date";
+  }
+
+  return new Date(parsed).toISOString().slice(0, 10);
+}
+
+function safeDateValue(dateValue) {
+  const parsed = Date.parse(dateValue || "");
+  if (!Number.isFinite(parsed)) {
+    return "";
+  }
+
+  return new Date(parsed).toISOString().slice(0, 10);
+}
+
+function buildItemId(text, index) {
+  const base = String(text || "item")
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, "")
+    .trim()
+    .replace(/\s+/g, "-")
+    .slice(0, 50);
+
+  return (base || "item") + "-" + (index + 1);
 }
 
 function renderMarkdown(markdown) {
