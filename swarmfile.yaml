@@ -1,0 +1,3 @@
+﻿# swarmfile.yaml
+services:
+  webserver: just start 
