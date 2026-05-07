@@ -2,115 +2,115 @@
 	{
 		"name": "Compiler Project",
 		"date": "2026-04-11",
-		"description": "A Project to build a Compiler",
+		"description": "Cross-Compiler for my own Grammar",
 		"markdown": "Compiler Project/CompilerProject.md"
 	},
 	{
 		"name": "Ai Game to Learn to Code",
 		"date": "2025-01-01",
-		"description": "Game to help learning",
+		"description": "Ai based Game to help learning Programming",
 		"markdown": "AIGameToLearnCode.md"
 	},
 	{
 		"name": "CTOS_Console",
 		"date": "2020-01-01",
-		"description": "wip",
+		"description": "Mock-Cli-Game",
 		"markdown": "CTOS_Console.md"
 	},
 	{
 		"name": "CustomECS",
 		"date": "2020-01-01",
-		"description": "wip",
+		"description": "Data Oriented ECS with struct-of-arrays",
 		"markdown": "CustomECS.md"
 	},
 	{
 		"name": "env",
 		"date": "2020-01-01",
-		"description": "wip",
+		"description": "Cli tool to add things to PATH",
 		"markdown": "env.md"
 	},
 	{
 		"name": "FinanceManager",
 		"date": "2016-01-01",
-		"description": "wip",
+		"description": "Bitcoin Price downloader and Bundler",
 		"markdown": "FinanceManager.md"
 	},
 	{
 		"name": "GoogeWalletGenerationWithCs",
 		"date": "2025-01-01",
-		"description": "wip",
+		"description": "Google Wallets Creation in C#",
 		"markdown": "GoogeWalletGenerationWithCs.md"
 	},
 	{
 		"name": "KassenProgram",
 		"date": "2025-01-01",
-		"description": "wip",
+		"description": "Simple Inventory Management Software",
 		"markdown": "KassenProgram.md"
 	},
 	{
 		"name": "Muffin",
 		"date": "2025-01-01",
-		"description": "wip",
+		"description": "Simple Discord Bot",
 		"markdown": "Muffin.md"
 	},
 	{
 		"name": "ProjectKaraka",
 		"date": "2020-01-01",
-		"description": "wip",
+		"description": "Dynamic Snow Shader in Unity",
 		"markdown": "ProjectKaraka.md"
 	},
 	{
 		"name": "R6-CoachHelper",
 		"date": "2025-01-01",
-		"description": "wip",
+		"description": "Data View Tool to Help coaches in R6",
 		"markdown": "R6-CoachHelper.md"
 	},
 	{
 		"name": "RPG-Engine",
 		"date": "2025-01-01",
-		"description": "wip",
+		"description": "AI aided tool for Worldbuilder and Writers",
 		"markdown": "RPG-Engine.md"
 	},
 	{
 		"name": "SeminarProject",
 		"date": "2025-01-01",
-		"description": "wip",
+		"description": "A Comparison of Monilthic and Microservice Architectures",
 		"markdown": "SeminarProject.md"
 	},
 	{
 		"name": "Swarmer",
 		"date": "2025-01-01",
-		"description": "wip",
+		"description": "Cli Parallel Command Runner",
 		"markdown": "Swarmer.md"
 	},
 	{
-		"name": "TextAdventureGame.md",
+		"name": "Text Adventure Engine",
 		"date": "2025-01-01",
-		"description": "wip",
+		"description": "a Data-Oriented Game Engine Concept for Text Adventure Games",
 		"markdown": "TextAdventureGame.md"
 	},
 	{
 		"name": "Vebnf",
 		"date": "2025-01-01",
-		"description": "wip",
+		"description": "Ebnf parser written in Vlang",
 		"markdown": "Vebnf.md"
 	},
 	{
 		"name": "VParseus",
 		"date": "2025-01-01",
-		"description": "wip",
+		"description": "continueation of Vebnf. Parser Generator",
 		"markdown": "VParseus.md"
 	},
 	{
 		"name": "WaitLib",
 		"date": "2025-01-01",
-		"description": "wip",
+		"description": "While Loop implementation of Threa.Sleep(...)",
 		"markdown": "WaitLib.md"
 	},
 	{
 		"name": "WareHouse",
 		"date": "2025-01-01",
-		"description": "wip",
+		"description": "Java Application and my First OOP Program(Kinda)",
 		"markdown": "WareHouse.md"
 	}
 ]
